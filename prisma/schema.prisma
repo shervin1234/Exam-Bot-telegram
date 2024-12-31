@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model UserHandler {
+  id           Int       @id @default(autoincrement())
+  username     String?   @unique
+  firstName    String?
+  lastName     String?
+  phone        String?  
+  userid       BigInt    @unique
+  role         Role      @default(DEFAULT)
+  languageCode String?
+  bio          String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  lastActiveAt DateTime?
+  wallet       BigInt    @default(0)
+  referrerId   BigInt?
+  isBanned     Boolean   @default(false)
+  acceptedRules Boolean  @default(false)
+
+  invitesSent     Invite[]   @relation("InviterRelation")
+  invitesReceived Invite[]   @relation("InvitedRelation")
+  purchases       Purchase[]
+  transactions Transaction[]   
+}
+
+
+model Transaction {
+  id          BigInt   @id @default(autoincrement()) 
+  userId      BigInt                              
+  user        UserHandler     @relation(fields: [userId], references: [userid])
+  amount      Float                                
+  status      String   @default("pending")         
+  createdAt   DateTime @default(now())             
+  receiptId   String?                              
+}
+
+
+model Purchase {
+  id          Int      @id @default(autoincrement())
+  userId      BigInt
+  productName String
+  amount      Int
+  createdAt   DateTime @default(now())
+  user        UserHandler     @relation(fields: [userId], references: [userid])
+}
+
+model Invite {
+  id        Int      @id @default(autoincrement())
+  inviterId BigInt
+  invitedId BigInt
+  createdAt DateTime @default(now())
+  inviter   UserHandler     @relation("InviterRelation", fields: [inviterId], references: [userid])
+  invited   UserHandler     @relation("InvitedRelation", fields: [invitedId], references: [userid])
+}
+
+enum Role {
+  DEFAULT
+  ADMIN
+  PARTNER
+}
