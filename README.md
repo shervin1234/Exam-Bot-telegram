@@ -41,33 +41,34 @@ Exam-Bot-Telegram is a highly customizable and professional Telegram bot written
    git clone https://github.com/your-username/Exam-Bot-Telegram.git
 2. Navigate to the project folder:
     ```bash
-        cd Exam-Bot-Telegram
+    cd Exam-Bot-Telegram
 3. Install dependencies (choose one):
-    Using npm:
-        
-            npm install
 
-    Using Bun:
-     
-            bun install
+   Using npm:
+   ```bash
+   npm install
+   ```
+   Using Bun:
+   ```bash
+   bun install
+   ```
 
 
-
-4. Generate Prisma client:
+5. Generate Prisma client:
 
         npm run prisma:generate
         or
         bun run prisma:generate
 
 
-5. Start the bot in development mode:
+6. Start the bot in development mode:
 
         npm run dev
         or
         bun run dev
 
 
-6. Logs will be saved in the logs folder.
+7. Logs will be saved in the logs folder.
 
 
 
